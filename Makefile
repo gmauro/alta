@@ -1,7 +1,7 @@
 TEMPDIR := $(shell mktemp -u)
 PY_V := $(shell python -c 'import sys; print "%d.%d" % sys.version_info[:2]')
 
-TARGETS=all build install_user clean uninstall_user
+TARGETS=all build install_user install_dependency clean uninstall_user
 
 all:
 	@echo "Try one of: ${TARGETS}"
@@ -15,7 +15,7 @@ install: build
 install_dependency: build
 	mkdir -p $(TEMPDIR)
 	git clone https://bitbucket.org/crs4/nglimsclient.git $(TEMPDIR)
-	cd $(TEMPDIR)/nglimsclient && python setup.py install --user
+	cd $(TEMPDIR) && python setup.py install --user
 	rm -rf $(TEMPDIR)
 
 build:
