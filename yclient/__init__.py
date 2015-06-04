@@ -17,7 +17,7 @@ def load_config(config_file):
 
 class ConfigurationFromYamlFile(object):
     """
-
+    Retrieve infrastructure configuration's details from a yaml file
     """
     def __init__(self, yaml_file, loglevel='INFO'):
         self.logger = a_logger(self.__class__.__name__, level=loglevel)
@@ -27,8 +27,8 @@ class ConfigurationFromYamlFile(object):
             self.logger.critical('{} not exists'.format(yaml_file))
             sys.exit()
 
-    def get_aus_section(self, subsection=None):
-        aus_section = self.get_section('aus')
+    def get_aus_section(self, label='aus', subsection=None):
+        aus_section = self.get_section(label)
         if subsection:
             if subsection in aus_section:
                 return aus_section[subsection]
@@ -38,8 +38,8 @@ class ConfigurationFromYamlFile(object):
         else:
             return aus_section
 
-    def get_galaxy_section(self, subsection=None):
-        g_section = self.get_section('galaxy')
+    def get_galaxy_section(self, label='galaxy', subsection=None):
+        g_section = self.get_section(label)
         if subsection:
             if subsection in g_section:
                 return g_section[subsection]
@@ -49,8 +49,8 @@ class ConfigurationFromYamlFile(object):
         else:
             return g_section
 
-    def get_io_section(self):
-        io_section = self.get_section('io')
+    def get_io_section(self, label='io'):
+        io_section = self.get_section(label)
         if io_section:
             if 'opaths' in io_section:
                 for op in io_section['opaths']:
@@ -58,11 +58,11 @@ class ConfigurationFromYamlFile(object):
                         self.logger.critical('section {} not found'.format(op))
         return io_section
 
-    def get_irods_section(self):
-        return self.get_section('irods')
+    def get_irods_section(self, label='irods'):
+        return self.get_section(label)
 
-    def get_omero_section(self):
-        return self.get_section('omero')
+    def get_omero_section(self, label='omero'):
+        return self.get_section(label)
 
     def get_section(self, section_label):
         if self.is_section_present(section_label):
