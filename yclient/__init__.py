@@ -61,8 +61,16 @@ class ConfigurationFromYamlFile(object):
     def get_irods_section(self, label='irods'):
         return self.get_section(label)
 
-    def get_omero_section(self, label='omero'):
-        return self.get_section(label)
+    def get_omero_section(self, label='omero', subsection='default'):
+        o_section = self.get_section(label)
+        if subsection:
+            if subsection in o_section:
+                return o_section[subsection]
+            else:
+                self.logger.warning('section {} not found'.format(subsection))
+                return ''
+        else:
+            return o_section
 
     def get_section(self, section_label):
         if self.is_section_present(section_label):
