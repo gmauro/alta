@@ -5,12 +5,12 @@ AuthorInfo = (
 )
 
 setup(name="yclient",
-      version='0.1',
+      version='0.2',
       description="client package for access yoda infrastructure",
       author=",".join(a[0] for a in AuthorInfo),
       author_email=",".join("<%s>" % a[1] for a in AuthorInfo),
       install_requires=['biobank', 'bioblend', 'nglimsclient',
-                        'python-irodsclient'],
+                        'PyRods'],
       packages=find_packages(),
       license='MIT',
       platforms="Posix; MacOS X; Windows",
