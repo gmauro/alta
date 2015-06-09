@@ -24,6 +24,7 @@ build:
 clean:
 	python setup.py clean --all
 	find . -regex '.*\(\.pyc\|\.pyo\)' -exec rm -fv {} \;
+	rm -rf dist *.egg-info
 
 uninstall_user:
 	rm -rf ~/.local/lib/python$(PY_V)/site-packages/yclient*
