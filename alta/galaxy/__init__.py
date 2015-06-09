@@ -1,7 +1,7 @@
 import nglimsclient
 
 from bioblend.galaxy.objects import GalaxyInstance
-from yclient.utils import a_logger
+from alta.utils import a_logger
 
 
 class BioBlendObject(object):

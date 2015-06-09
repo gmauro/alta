@@ -1,7 +1,7 @@
 import sys
 
 from bl.vl.kb import KnowledgeBase as KB
-from yclient.utils import a_logger
+from alta.utils import a_logger
 
 class BioBank(object):
     """

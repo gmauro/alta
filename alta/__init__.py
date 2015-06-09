@@ -2,11 +2,11 @@ import os.path
 import sys
 import yaml
 
-from yclient.utils import a_logger, LOG_LEVELS
+from alta.utils import a_logger, LOG_LEVELS
 
-import yclient.biobank
-import yclient.galaxy
-import yclient.yrods
+import alta.biobank
+import alta.galaxy
+import alta.yrods
 
 
 def load_config(config_file):

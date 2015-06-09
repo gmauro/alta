@@ -1,5 +1,5 @@
 import irods
-from yclient.utils import a_logger
+from alta.utils import a_logger
 
 
 class yRODS(object):

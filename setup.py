@@ -4,13 +4,12 @@ AuthorInfo = (
     ("Gianmauro Cuccuru", "gmauro@crs4.it")
 )
 
-setup(name="yclient",
+setup(name="alta",
       version='0.2',
-      description="client package for access yoda infrastructure",
+      description="package to access the NGS infrastructure",
       author=",".join(a[0] for a in AuthorInfo),
       author_email=",".join("<%s>" % a[1] for a in AuthorInfo),
-      install_requires=['biobank', 'bioblend', 'nglimsclient',
-                        'PyRods'],
+      install_requires=['biobank', 'bioblend', 'nglimsclient'],
       packages=find_packages(),
       license='MIT',
       platforms="Posix; MacOS X; Windows",
