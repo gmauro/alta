@@ -40,4 +40,6 @@ class yRODS(object):
         if path.startswith(self.prefix):
             path = path.replace(self.prefix, '')
         f = irods.irodsOpen(self.conn, path, 'r')
-        return f.getPath()
+        if f:
+            return f.getPath()
+        return None
