@@ -35,11 +35,10 @@ class yRODS(object):
             metadata[m[0]] = {'value': m[1], 'units': m[2]}
         return metadata
 
-    def get_physical_path(self, path):
+    def get_irods_file(self, path):
         # FIXME: add path validation
         if path.startswith(self.prefix):
             path = path.replace(self.prefix, '')
+
         f = irods.irodsOpen(self.conn, path, 'r')
-        if f:
-            return f.getPath()
-        return None
+        return f
