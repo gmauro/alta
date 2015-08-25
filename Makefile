@@ -18,7 +18,7 @@ install_dependency: build
 	cd $(TEMPDIR) && python setup.py install --user
 	rm -rf $(TEMPDIR)
 
-build:
+build: uninstall_user
 	python setup.py build
 
 clean:
@@ -27,4 +27,4 @@ clean:
 	rm -rf dist *.egg-info
 
 uninstall_user:
-	rm -rf ~/.local/lib/python$(PY_V)/site-packages/yclient*
+	rm -rf ~/.local/lib/python$(PY_V)/site-packages/alta*
