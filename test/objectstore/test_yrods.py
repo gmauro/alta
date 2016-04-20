@@ -131,6 +131,29 @@ class IrodsObjectStoreTest(unittest.TestCase):
         self.ios.sess.data_objects.unlink(d)
         os.unlink(f.name)
 
+    def test_remove_a_path(self):
+        obj_path = os.path.join(self.home_path, str(uuid.uuid4()))
+        obj = self.ios.create_object(obj_path, collection=False)
+        self.ios.remove_object(obj_path)
+        self.assertFalse(self.ios.exists(obj_path))
+
+        obj_path = os.path.join(self.home_path, str(uuid.uuid4()))
+        obj = self.ios.create_object(obj_path, collection=True)
+        self.ios.remove_object(obj_path)
+        self.assertFalse(self.ios.exists(obj_path))
+
+        str1 = str(uuid.uuid4())
+        str2 = str(uuid.uuid4())
+
+        obj_path1 = os.path.join(self.home_path, str1)
+        self.ios.create_object(obj_path1, collection=True)
+        obj_path2 = os.path.join(self.home_path, str1, str2)
+        self.ios.create_object(obj_path2, collection=False)
+        self.ios.remove_object(obj_path1, recurse=True)
+
+        self.assertFalse(self.ios.exists(obj_path1))
+        self.assertFalse(self.ios.exists(obj_path2))
+
     def test_add_metadata(self):
         msg = "Hi there"
         f = ntf(bufsize=0, delete=False)

@@ -150,16 +150,25 @@ class IrodsObjectStore(ObjectStore):
             self.log.warning('Something wrong here. I received a path that is '
                              'not a regular file - {}'.format(dest_path))
 
-    def remove_object(self, obj_path, force=False):
+    def remove_object(self, obj_path, recurse=False, force=False):
         """
 
-        :param obj_path:
-        :param force:
-        :return:
+        :type obj_path: str
+        :param obj_path: iRODS path
+
+        :type recurse: bool
+        :param recurse: delete everything under the path
+
+        :type force: bool
+        :param force: force remove execution
+
+        :return: False if object is missing
         """
 
-        if self.exists(obj_path):
-           return True
+        if self.is_a_data_object(obj_path):
+            self.sess.data_objects.unlink(obj_path, force=force)
+        elif self.is_a_collection(obj_path):
+            self.sess.collections.remove(obj_path, recurse=recurse, force=force)
         else:
             self.log.error("Object missing")
             return False

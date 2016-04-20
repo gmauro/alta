@@ -17,7 +17,7 @@ class ObjectStore(object):
     def put_object(self, source_path, dest_path, force=False):
         raise NotImplementedError()
 
-    def remove_object(self, obj_path, force=False):
+    def remove_object(self, obj_path, recurse=True, force=False):
         raise NotImplementedError()
 
     def add_object_metadata(self, obj_path, meta):
