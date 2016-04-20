@@ -6,7 +6,7 @@ from alta.utils import a_logger, LOG_LEVELS
 
 import alta.biobank
 import alta.galaxy
-import alta.yrods
+import alta.objectstore
 
 
 def load_config(config_file):
