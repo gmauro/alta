@@ -5,4 +5,4 @@ Requirements:
 - OMERO.biobank
 - BioBlend
 - nglimsclient
-- PyRods
+- python-irodsclient
