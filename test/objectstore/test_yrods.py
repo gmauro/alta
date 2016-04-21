@@ -5,6 +5,7 @@ import uuid
 from alta.objectstore.yrods import IrodsObjectStore
 from tempfile import NamedTemporaryFile as ntf
 
+
 class IrodsObjectStoreTest(unittest.TestCase):
     """
     Uses https://hub.docker.com/r/gmauro/boxed-irods/ as test iRODS server
