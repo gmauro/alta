@@ -1,30 +1,28 @@
 TEMPDIR := $(shell mktemp -u)
 PY_V := $(shell python -c 'import sys; print "%d.%d" % sys.version_info[:2]')
 
-TARGETS=all build install_user install_dependency clean uninstall_user
+TARGETS=all build install_user clean uninstall
 
 all:
 	@echo "Try one of: ${TARGETS}"
 
 install_user: build
-	python setup.py install --user
+	pip install --user dist/*.whl
 
 install: build
-	python setup.py install
+	pip install dist/*.whl
 
-install_dependency: build
-	mkdir -p $(TEMPDIR)
-	git clone https://bitbucket.org/crs4/nglimsclient.git $(TEMPDIR)
-	cd $(TEMPDIR) && python setup.py install --user
-	rm -rf $(TEMPDIR)
+install_dependency_user: build
+    pip install --user git+https://bitbucket.org/crs4/nglimsclient.git
+	pip install --user git+https://github.com/irods/python-irodsclient.git
 
-build: uninstall_user
-	python setup.py build
+build: clean
+	python setup.py bdist_wheel
 
 clean:
 	python setup.py clean --all
 	find . -regex '.*\(\.pyc\|\.pyo\)' -exec rm -fv {} \;
 	rm -rf dist *.egg-info
 
-uninstall_user:
-	rm -rf ~/.local/lib/python$(PY_V)/site-packages/alta*
+uninstall:
+	pip uninstall -y alta
