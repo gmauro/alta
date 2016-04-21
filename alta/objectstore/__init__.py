@@ -27,4 +27,5 @@ class ObjectStore(object):
 def build_object_store(store):
     if store == 'irods':
         from .yrods import IrodsObjectStore
-        return IrodsObjectStore(host='localhost', port='1247', user='iuser', password='irods123', zone='tempZone')
+        return IrodsObjectStore(host='localhost', port='1247', user='iuser',
+                                password='irods123', zone='tempZone')

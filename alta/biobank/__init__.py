@@ -1,7 +1,6 @@
 import sys
+from alta.utils import a_logger, import_from
 
-from bl.vl.kb import KnowledgeBase as KB
-from alta.utils import a_logger
 
 class BioBank(object):
     """
@@ -11,6 +10,9 @@ class BioBank(object):
         self.log = a_logger(self.__class__.__name__, level=loglevel)
         self.log.debug('Opening connection to {} OMERO server'.format(
             host))
+
+        KB = import_from("bl.vl.kb", "KnowledgeBase")
+
         try:
             self.kb = KB(driver='omero')(host, user, passwd)
         except ImportError, e:

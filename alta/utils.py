@@ -21,3 +21,20 @@ def a_logger(name, level="WARNING", filename=None, mode="a"):
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     return logger
+
+
+# from http://stackoverflow.com/questions/19044096/how-to-import-a-submodule-in-
+# python-without-exec
+def import_from(mod_name, var_name, error_msg=None):
+    import importlib
+    var = None
+    try:
+        mod = importlib.import_module(mod_name)
+        var = getattr(mod, var_name)
+    except ImportError:
+        if not error_msg:
+            error_msg = 'Module {} missing'.format(mod)
+
+    assert var is not None, error_msg
+    return var
+

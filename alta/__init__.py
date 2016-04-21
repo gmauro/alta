@@ -4,9 +4,9 @@ import yaml
 
 from alta.utils import a_logger, LOG_LEVELS
 
-import alta.biobank
-import alta.galaxy
-import alta.objectstore
+import biobank
+import galaxy
+import objectstore
 
 
 def load_config(config_file):
