@@ -1,18 +1,17 @@
 from alta.utils import a_logger, import_from
-try:
-    import nglimsclient
-except ImportError:
-    nglimsclient = None
+from ..workflows import WorkflowManagementSystem
+
 
 NO_NGLIMS_CLIENT_MESSAGE = ('The nglims client is required, please install it -'
                             ' https://bitbucket.org/crs4/nglimsclient.git')
 
 
-class BioBlendObject(object):
+class BioBlendObject(WorkflowManagementSystem):
     """
     """
 
     def __init__(self, galaxy_host, api_key, loglevel='INFO'):
+        super(BioBlendObject, self).__init__(galaxy_host, api_key=api_key)
         self.log = a_logger(self.__class__.__name__, level=loglevel)
         GI = import_from('bioblend.galaxy.objects', 'GalaxyInstance')
         self.gi = GI(galaxy_host, api_key)
@@ -25,5 +24,9 @@ class NGLims(BioBlendObject):
 
     def __init__(self, galaxy_host, api_key):
         super(NGLims, self).__init__(galaxy_host, api_key)
+        try:
+            import nglimsclient
+        except ImportError:
+            nglimsclient = None
         assert nglimsclient is not None, NO_NGLIMS_CLIENT_MESSAGE
         nglimsclient.setupObj(self.gi)
