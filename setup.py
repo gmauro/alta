@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 AuthorInfo = (("Gianmauro Cuccuru", "gmauro@crs4.it"),)
 
 setup(name="alta",
-      version='0.4',
+      version='0.5',
       description="package to access the NGS infrastructure",
       author=",".join(a[0] for a in AuthorInfo),
       author_email=",".join("<%s>" % a[1] for a in AuthorInfo),
