@@ -6,7 +6,7 @@ class BioBank(object):
     """
     """
 
-    def __init__(self, host, user, passwd, loglevel='INFO'):
+    def __init__(self, host, user, password, loglevel='INFO'):
         self.log = a_logger(self.__class__.__name__, level=loglevel)
         self.log.debug('Opening connection to {} OMERO server'.format(
             host))
@@ -14,7 +14,7 @@ class BioBank(object):
         KB = import_from("bl.vl.kb", "KnowledgeBase")
 
         try:
-            self.kb = KB(driver='omero')(host, user, passwd)
+            self.kb = KB(driver='omero')(host, user, password)
         except ImportError, e:
             self.log.error("{}. Have you forgotten to load the OMERO's "
                            "libraries?".format(e))
