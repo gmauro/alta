@@ -1,23 +1,26 @@
-TEMPDIR := $(shell mktemp -u)
-PY_V := $(shell python -c 'import sys; print "%d.%d" % sys.version_info[:2]')
 
-TARGETS=all install install_user install_dependency_user clean uninstall
+TARGETS=all install install_user clean uninstall
 
 all:
 	@echo "Try one of: ${TARGETS}"
 
-install_user: build
+install_user: build_user
 	pip install --user dist/*.whl
+
+build_user: clean dependencies_user
+	python setup.py bdist_wheel
+
+dependencies_user: requirements.txt
+	pip install --user -Ur requirements.txt
 
 install: build
 	pip install dist/*.whl
 
-install_dependency_user: build
-    pip install --user git+https://bitbucket.org/crs4/nglimsclient.git
-	pip install --user git+https://github.com/irods/python-irodsclient.git
-
-build: clean
+build: clean dependencies
 	python setup.py bdist_wheel
+
+dependencies: requirements.txt
+	pip install -r requirements.txt
 
 clean:
 	python setup.py clean --all
