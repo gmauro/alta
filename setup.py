@@ -1,4 +1,11 @@
-from setuptools import setup, find_packages
+import subprocess, sys
+from setuptools import setup
+
+if sys.argv[1] == 'install':
+    if sys.argv[2] == '--user':
+        subprocess.call(['make', 'dependencies_user'])
+    else:
+        subprocess.call(['make', 'dependencies'])
 
 AuthorInfo = (("Gianmauro Cuccuru", "gmauro@crs4.it"),)
 
@@ -7,7 +14,6 @@ setup(name="alta",
       description="package to access the NGS infrastructure",
       author=",".join(a[0] for a in AuthorInfo),
       author_email=",".join("<%s>" % a[1] for a in AuthorInfo),
-      packages=find_packages(),
       license='MIT',
       platforms="Posix; MacOS X; Windows",
       classifiers=["Development Status :: Alpha",
@@ -17,3 +23,4 @@ setup(name="alta",
                    "Topic :: Infrastructure",
                    "Programming Language :: Python :: 2.7"],
       )
+

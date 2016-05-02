@@ -7,7 +7,7 @@ all:
 install_user: build_user
 	pip install --user dist/*.whl
 
-build_user: clean dependencies_user
+build_user: clean dependencies_userq
 	python setup.py bdist_wheel
 
 dependencies_user: requirements.txt
