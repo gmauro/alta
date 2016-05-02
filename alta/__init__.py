@@ -4,10 +4,6 @@ import yaml
 
 from alta.utils import a_logger, LOG_LEVELS
 
-import biobank
-import galaxy
-import objectstore
-
 
 def load_config(config_file):
     with open(config_file) as cfg:

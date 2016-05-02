@@ -1,7 +1,7 @@
 TEMPDIR := $(shell mktemp -u)
 PY_V := $(shell python -c 'import sys; print "%d.%d" % sys.version_info[:2]')
 
-TARGETS=all build install_user clean uninstall
+TARGETS=all install install_user install_dependency_user clean uninstall
 
 all:
 	@echo "Try one of: ${TARGETS}"
