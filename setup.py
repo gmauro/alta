@@ -1,6 +1,7 @@
 from setuptools import setup
 
-AuthorInfo = (("Gianmauro Cuccuru", "gmauro@crs4.it"),)
+AuthorInfo = (("Gianmauro Cuccuru", "gmauro@crs4.it"),
+              ("Rossano Atzeni", "ratzeni@crs4.it"),)
 
 setup(name="alta",
       version='0.5',
@@ -17,11 +18,11 @@ setup(name="alta",
       ],
       license='MIT',
       platforms="Posix; MacOS X; Windows",
-      classifiers=["Development Status :: Alpha",
+      classifiers=["Development Status :: 4 - Beta",
                    "Intended Audience :: Developers",
                    "License :: OSI Approved :: MIT License",
                    "Operating System :: OS Independent",
-                   "Topic :: Infrastructure",
+                   "Topic :: Software Development :: Libraries",
                    "Programming Language :: Python :: 2.7"],
       )
 
