@@ -5,13 +5,13 @@ all:
 	@echo "Try one of: ${TARGETS}"
 
 install_user: build_user
-	pip install --user dist/*.whl
+	pip install --user --upgrade dist/*.whl
 
-build_user: clean dependencies_userq
+build_user: clean dependencies_user
 	python setup.py bdist_wheel
 
 dependencies_user: requirements.txt
-	pip install --user -Ur requirements.txt
+	pip install --user --upgrade -r requirements.txt
 
 install: build
 	pip install dist/*.whl

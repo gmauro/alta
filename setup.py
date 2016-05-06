@@ -1,11 +1,4 @@
-import subprocess, sys
 from setuptools import setup
-
-if sys.argv[1] == 'install':
-    if sys.argv[2] == '--user':
-        subprocess.call(['make', 'dependencies_user'])
-    else:
-        subprocess.call(['make', 'dependencies'])
 
 AuthorInfo = (("Gianmauro Cuccuru", "gmauro@crs4.it"),)
 
@@ -14,6 +7,14 @@ setup(name="alta",
       description="package to access the NGS infrastructure",
       author=",".join(a[0] for a in AuthorInfo),
       author_email=",".join("<%s>" % a[1] for a in AuthorInfo),
+      install_requires=['bioblend', 'nglimsclient', 'bikaclient',
+                        'python-irodsclient>=0.5.0'],
+      packages=['alta'],
+      dependency_links=[
+        "https://github.com/ratzeni/bika.client/tarball/master#egg=bikaclient",
+        "https://github.com/irods/python-irodsclient/tarball/master#egg=python-irodsclient-0.5.0",
+        "https://bitbucket.org/crs4/nglimsclient/get/master.zip#egg=nglimsclient" 
+      ],
       license='MIT',
       platforms="Posix; MacOS X; Windows",
       classifiers=["Development Status :: Alpha",
