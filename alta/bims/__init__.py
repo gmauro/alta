@@ -14,18 +14,18 @@ class Bims(object):
         self.password = password
         self.bims_label = bims_label
         self.loglevel = loglevel
-        self.build_result = self.build_bims(self.bims_label)
+        self.bims = self.build_bims()
 
-    def build_bims(self, bims_label):
-        if bims_label == 'omero.biobank':
+    def build_bims(self):
+        if self.bims_label == 'omero.biobank':
             from .omerobiobank import BioBank
             return BioBank(host=self.host, user=self.user, password=self.password)
 
-        if bims_label == 'bikalims':
+        if self.bims_label == 'bikalims':
             from .bikalims import BikaLims
-            return BikaLims(self.host, self.user, self.password, self.loglevel)
+            return BikaLims(self.host, self.user, self.password, loglevel=self.loglevel)
 
         return None
 
     def is_connected(self):
-        return True if self.build_result else False
+        return True if self.bims else False
