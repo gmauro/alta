@@ -15,7 +15,7 @@ Requirements:
 Installation
 ------------
 
-```
+```bash
 git clone https://github.com/gmauro/alta.git
 cd alta
 python setup.py install
