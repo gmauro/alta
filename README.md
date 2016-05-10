@@ -27,9 +27,17 @@ Usage
 bikaclient:
 ```python
 from alta.bims import Bims
-
 bk = Bims('http://host', 'user', 'password', 'bikalims')
+```
+then to access [bikaclient](https://github.com/ratzeni/bika.client) methods, use
+```python
 bk.bims.client
 <bikaclient.BikaClient instance at 0x7f94b1a26e60>
-
 ```
+instead to access alta.bims methods, use:
+```python
+bk.bims
+<alta.bims.bikalims.BikaLims at 0x7ff03c68c4d0>
+```
+
+
