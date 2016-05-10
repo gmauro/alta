@@ -1,4 +1,5 @@
 import logging
+import os
 
 LOG_LEVELS = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 
@@ -37,4 +38,14 @@ def import_from(mod_name, var_name, error_msg=None):
 
     assert var is not None, error_msg
     return var
+
+
+# from http://stackoverflow.com/questions/273192/how-to-check-if-a-directory-
+# exists-and-create-it-if-necessary/5032238#5032238
+def ensure_dir(path):
+    try:
+        os.makedirs(path)
+    except OSError:
+        if not os.path.isdir(path):
+            raise
 
