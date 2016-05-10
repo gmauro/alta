@@ -20,3 +20,16 @@ git clone https://github.com/gmauro/alta.git
 cd alta
 python setup.py install
 ```
+
+Usage
+-----
+
+bikaclient:
+```python
+from alta.bims import Bims
+
+bk = Bims('http://host', 'user', 'password', 'bikalims')
+bk.bims.client
+<bikaclient.BikaClient instance at 0x7f94b1a26e60>
+
+```
