@@ -1,16 +1,28 @@
 from setuptools import setup
 
-AuthorInfo = (("Gianmauro Cuccuru", "gmauro@crs4.it"),
-              ("Rossano Atzeni", "ratzeni@crs4.it"),)
+AUTHOR_INFO = [
+  ("Gianmauro Cuccuru", "gianmauro.cuccuru@crs4.it"),
+  ("Rossano Atzeni", "rossano.atzeni@crs4.it"),
+  ]
+MAINTAINER_INFO = [
+  ("Gianmauro Cuccuru", "gianmauro.cuccuru@crs4.it"),
+  ]
+AUTHOR = ", ".join(t[0] for t in AUTHOR_INFO)
+AUTHOR_EMAIL = ", ".join("<%s>" % t[1] for t in AUTHOR_INFO)
+MAINTAINER = ", ".join(t[0] for t in MAINTAINER_INFO)
+MAINTAINER_EMAIL = ", ".join("<%s>" % t[1] for t in MAINTAINER_INFO)
+PACKAGES = ['alta', 'alta.bims', 'alta.workflows', 'alta.objectstore']
 
 setup(name="alta",
       version='0.5',
       description="package to access the NGS infrastructure",
-      author=",".join(a[0] for a in AuthorInfo),
-      author_email=",".join("<%s>" % a[1] for a in AuthorInfo),
+      author=AUTHOR,
+      author_email=AUTHOR_EMAIL,
+      maintainer=MAINTAINER,
+      maintainer_email=MAINTAINER_EMAIL,
       install_requires=['bioblend', 'nglimsclient', 'bikaclient',
                         'python-irodsclient>=0.5.0'],
-      packages=['alta'],
+      packages=PACKAGES,
       dependency_links=[
         "https://github.com/ratzeni/bika.client/tarball/master#egg=bikaclient",
         "https://github.com/irods/python-irodsclient/tarball/master#egg=python-irodsclient-0.5.0",
@@ -25,4 +37,3 @@ setup(name="alta",
                    "Topic :: Software Development :: Libraries",
                    "Programming Language :: Python :: 2.7"],
       )
-
