@@ -26,8 +26,7 @@ class IrodsObjectStore(ObjectStore):
 
     def __init__(self, host=None, port=1247, user=None, password=None,
                  zone=None, loglevel='INFO'):
-        super(IrodsObjectStore, self).__init__(host, port, user, password,
-                                               zone, loglevel)
+        super(IrodsObjectStore, self).__init__(loglevel)
         assert iRODSSession is not None, NO_IRODS_CLIENT_MESSAGE
         self.user = user
         self.zone = zone

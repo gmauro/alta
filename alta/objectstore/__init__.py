@@ -5,7 +5,7 @@ class ObjectStore(object):
     """
 
     """
-    def __init__(self, host, port, user, password, zone, loglevel='INFO'):
+    def __init__(self, loglevel='INFO'):
         self.log = a_logger(self.__class__.__name__, level=loglevel)
 
     def exists(self, obj_path):
@@ -24,9 +24,20 @@ class ObjectStore(object):
         raise NotImplementedError()
 
 
-def build_object_store(store):
+def build_object_store(store, **kwargs):
+    """
+    Build an objecstore on demand.
+
+    :param store: label of the store to invoke
+    :param kwargs: all the details needed by the store
+    :return: the appropriate object store
+    """
     if store == 'irods':
         from .yrods import IrodsObjectStore
-        # FIXME: set server config
-        return IrodsObjectStore(host='localhost', port='1247', user='iuser',
-                                password='irods123', zone='tempZone')
+        host = kwargs.get('host')
+        port = kwargs.get('port')
+        user = kwargs.get('user')
+        password = kwargs.get('password')
+        zone = kwargs.get('zone')
+        return IrodsObjectStore(host=host, port=port, user=user,
+                                password=password, zone=zone)
