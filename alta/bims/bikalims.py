@@ -22,7 +22,8 @@ class BikaLims(object):
 
         :type bid: str
         :param bid: Bika id
-        :return: the sample label as provided from the owner, as a str
+        :return: an array of labels as provided from the owner otherwise None.
         """
-        return self.client.query_analysis_request(params=dict(id=bid))[0][
-            'ClientSampleID']
+        result = self.client.query_analysis_request(params=dict(id=bid))
+        return result[0]['ClientSampleID'] if result else None
+
