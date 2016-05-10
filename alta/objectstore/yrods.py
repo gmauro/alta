@@ -30,6 +30,7 @@ class IrodsObjectStore(ObjectStore):
         assert iRODSSession is not None, NO_IRODS_CLIENT_MESSAGE
         self.user = user
         self.zone = zone
+        self.home = os.path.join('/', self.zone, 'home', self.user)
         self.sess = iRODSSession(host=host, port=port, user=user,
                                  password=password, zone=zone)
 
@@ -111,8 +112,8 @@ class IrodsObjectStore(ObjectStore):
         Reads from source_path and puts into the dest_path.
         If dest_path is not set, will be used the same value of source_path
         down to the iRODS user home.
-        Mimics the same behaviour of iput: don't write without the force flag
-        raised.
+        Mimics the same behaviour of iput: don't overwrite without the force
+        flag raised.
 
         :type source_path: str
         :param source_path: source path
@@ -127,8 +128,7 @@ class IrodsObjectStore(ObjectStore):
         """
 
         if not dest_path:
-            dest_path = os.path.join('/', self.zone, 'home', self.user,
-                                     source_path.strip('/'))
+            dest_path = os.path.join(self.home, source_path.strip('/'))
         new_object = False
 
         if os.path.isfile(source_path):

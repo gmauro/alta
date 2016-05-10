@@ -35,7 +35,7 @@ def build_object_store(store, **kwargs):
     if store == 'irods':
         from .yrods import IrodsObjectStore
         host = kwargs.get('host')
-        port = kwargs.get('port')
+        port = kwargs.get('port', 1247)
         user = kwargs.get('user')
         password = kwargs.get('password')
         zone = kwargs.get('zone')
