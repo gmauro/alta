@@ -8,9 +8,21 @@ class BikaLims(object):
     """
 
     """
+
     def __init__(self, host, user, password, loglevel='INFO'):
         self.log = a_logger(self.__class__.__name__, level=loglevel)
         BC = import_from("bikaclient", "BikaClient",
                          error_msg=NO_BIKALIMS_CLIENT_MESSAGE)
-        self.bc = BC(host=host, username=user, password=password)
+        self.client = BC(host=host, username=user, password=password)
         self.log.info("Connected to {} Bika server".format(host))
+
+    def from_bikaid_2_samplelabel(self, bid):
+        """
+        Given a valid Bika id, returns the corresponding sample label
+
+        :type bid: str
+        :param bid: Bika id
+        :return: the sample label as provided from the owner, as a str
+        """
+        return self.client.query_analysis_request(params=dict(id=bid))[0][
+            'ClientSampleID']
