@@ -14,9 +14,9 @@ class Bims(object):
         self.password = password
         self.bims_label = bims_label
         self.loglevel = loglevel
-        self.bims = self.build_bims()
+        self.bims = self._build_bims()
 
-    def build_bims(self):
+    def _build_bims(self):
         if self.bims_label == 'omero.biobank':
             from .omerobiobank import BioBank
             return BioBank(host=self.host, user=self.user, password=self.password)
