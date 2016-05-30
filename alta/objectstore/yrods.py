@@ -1,6 +1,7 @@
 import os
 
 from ..objectstore import ObjectStore
+from alta.utils import ensure_dir
 
 try:
     from irods.session import iRODSSession
@@ -87,12 +88,16 @@ class IrodsObjectStore(ObjectStore):
 
         return obj
 
-    def get_object(self, obj_path, prefix='irods://'):
+    def get_object(self, src_path, dest_path=None, prefix='irods://'):
         """
-        Retrieves an object from an existing path
+        Retrieves an object from an existing path.
+        If dest_path is set, data will be copied from iRODS to the filesystem.
 
-        :type obj_path: str
-        :param obj_path: irods path
+        :type src_path: str
+        :param src_path: irods path
+
+        :param dest_path: str
+        :param dest_path: destination path
 
         :type prefix: str
         :param prefix: path's prefix (if any)
@@ -101,9 +106,16 @@ class IrodsObjectStore(ObjectStore):
         irods.collection.iRODSCollection or None
         """
 
-        if obj_path.startswith(prefix):
-            obj_path = os.path.join(obj_path.replace(prefix, '/'))
-        exists, obj = self.exists(obj_path, delivery=True)
+        if src_path.startswith(prefix):
+            src_path = os.path.join(src_path.replace(prefix, '/'))
+        exists, obj = self.exists(src_path, delivery=True)
+
+        if exists and dest_path:
+            ensure_dir(os.path.dirname(dest_path))
+            with open(dest_path, 'w') as df:
+                    with obj.open('r') as sf:
+                        for line in sf:
+                            df.write(line)
 
         return obj
 

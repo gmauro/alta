@@ -85,8 +85,18 @@ class IrodsObjectStoreTest(unittest.TestCase):
 
     def test_get_a_path_with_prefix(self):
         prefix = 'irods://'
-        coll = self.ios.get_object(self.home_path, prefix)
+        coll = self.ios.get_object(self.home_path, prefix=prefix)
         self.assertIsInstance(coll.id, int)
+
+    def test_get_an_object_and_copy_it(self):
+        label = str(uuid.uuid4())
+        obj_path = os.path.join(self.home_path, label)
+        obj = self.ios.create_object(obj_path, collection=False)
+        dest_path=os.path.join('/tmp/', label)
+        self.ios.get_object(obj_path, dest_path=dest_path)
+        self.assertTrue(os.path.exists(dest_path))
+        self.ios.sess.data_objects.unlink(obj_path)
+        os.unlink(dest_path)
 
     def test_get_a_path_that_does_not_exists(self):
         obj_path_fake = os.path.join(self.home_path, str(uuid.uuid4()))
