@@ -36,4 +36,30 @@ class BikaLims(object):
         else:
             return None
 
+    def get_batch_info(self, batch_label):
+        """
+        Given a valid bika batch label, returns a dictionary filled with all
+        the info of the samples owned by the batch
+
+        :type batch_label: str
+        :param batch_label:
+        :return: a dictionary with as key the sample id and value a
+        dictionary collecting the type, label and external label of the sample
+        """
+        result = self.client.query_analysis_request(params=dict(
+            title=batch_label))
+        if result:
+            batch_info = dict()
+            for _ in result:
+                batch_info[result['SampleID']] = {'type': result['SampleTypeTitle'],
+                                                  'sample_label': result['Title'],
+                                                  'client_sample_id': result['ClientSampleID']
+                                                  }
+            return batch_info
+        else:
+            return None
+
+
+
+
 
