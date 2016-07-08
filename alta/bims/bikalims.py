@@ -50,11 +50,12 @@ class BikaLims(object):
             title=batch_label))
         if result:
             batch_info = dict()
-            for _ in result:
-                batch_info[result['SampleID']] = {'type': result['SampleTypeTitle'],
-                                                  'sample_label': result['Title'],
-                                                  'client_sample_id': result['ClientSampleID']
-                                                  }
+            for r in result:
+                sub_d = {'type': r['SampleTypeTitle'],
+                         'sample_label': r['Title'],
+                         'client_sample_id': r['ClientSampleID']
+                         }
+                batch_info[r['SampleID']] = sub_d
             return batch_info
         else:
             return None
