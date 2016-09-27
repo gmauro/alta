@@ -9,6 +9,7 @@ try:
     from irods.data_object import iRODSDataObject
     from irods.exception import DataObjectDoesNotExist
     from irods.exception import CollectionDoesNotExist
+    from irods.exception import NetworkException
 except ImportError:
     iRODSSession = None
     iRODSCollection = None
@@ -218,3 +219,11 @@ class IrodsObjectStore(ObjectStore):
         else:
             obj.metadata.add(avu['name'], avu['value'], avu['units'])
 
+    def close_session(self):
+        """
+        Close iRODSSession
+        """
+        try:
+            self.sess.cleanup()
+        except NetworkException:
+            pass
