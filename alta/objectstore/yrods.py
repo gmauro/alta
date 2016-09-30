@@ -223,5 +223,8 @@ class IrodsObjectStore(ObjectStore):
         """
         Close iRODSSession
         """
-        self.sess.cleanup()
-
+        # self.sess.cleanup()
+        try:
+            self.sess.cleanup()
+        except NetworkException:
+            pass
