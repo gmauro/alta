@@ -85,18 +85,18 @@ class BikaLims(object):
             return review_state.get(action)
 
         if len(samples) == 0:
-            samples = self.client.query_analysis_request(params=dict(
+            result = self.client.query_analysis_request(params=dict(
                 review_state='sample_received')
             )
         else:
-            samples = self.client.query_analysis_request(params=dict(
+            result = self.client.query_analysis_request(params=dict(
                 id=[s.get('id') for s in samples],
                 review_state='sample_received')
             )
 
         analyses = list()
 
-        for ar in samples:
+        for ar in result:
             for a in ar['Analyses']:
                 if str(a['id']) not in ANALYSIS_NOT_SYNC and str(a['review_state']) == get_review_state(action):
                     path = os.path.join(ar['path'], a['id'])
@@ -121,7 +121,7 @@ class BikaLims(object):
                 review_state='sample_received')
             )
 
-        samples = list()
+        this_samples = list()
 
         for ar in result:
             ready = True
@@ -130,9 +130,9 @@ class BikaLims(object):
                     ready = False
                     break
             if ready:
-                samples.append(ar)
+                this_samples.append(ar)
 
-        return samples
+        return this_samples
 
     def get_batches_ready_to_be_closed(self, batches=list(), also_samples=False):
         """
@@ -154,9 +154,9 @@ class BikaLims(object):
             )
 
         if also_samples:
-            samples = list()
+            this_samples = list()
 
-        batches = list()
+        this_batches = list()
 
         for batch in result:
 
@@ -180,15 +180,15 @@ class BikaLims(object):
                     break
 
             if ready:
-                batches.append(batch)
+                this_batches.append(batch)
 
                 if sample and also_samples:
-                    samples.append(sample)
+                    this_samples.append(sample)
 
         if also_samples:
-            return batches, samples
+            return this_batches, this_samples
 
-        return batches
+        return this_batches
 
     def get_worksheets_ready_to_be_closed(self, worksheets=list(), also_samples=False):
         """
@@ -210,16 +210,16 @@ class BikaLims(object):
             )
 
         if also_samples:
-            samples = list()
+            this_samples = list()
 
-        worksheets = list()
+        this_worksheets = list()
 
         for worksheet in result:
 
             ready = True
             sample = None
 
-            for r in json.loads(worksheets.get('Remarks')):
+            for r in json.loads(worksheet.get('Remarks')):
                 ars = self.client.query_analysis_request(params=dict(id=r['request_id']))
                 if len(ars) == 1:
                     ar = ars.pop()
@@ -237,14 +237,14 @@ class BikaLims(object):
                             break
 
             if ready:
-                worksheets.append(worksheet)
+                this_worksheets.append(worksheet)
                 if sample and also_samples:
-                    samples.append(sample)
+                    this_samples.append(sample)
 
         if also_samples:
-            return worksheets, samples
+            return this_worksheets, this_samples
 
-        return worksheets
+        return this_worksheets
 
     def close_batches(self, batches=list()):
         """
