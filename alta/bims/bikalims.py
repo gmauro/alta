@@ -112,20 +112,25 @@ class BikaLims(object):
         :return:
         """
         if len(samples) == 0:
-            samples = self.client.query_analysis_request(params=dict(
+            result = self.client.query_analysis_request(params=dict(
                 review_state='sample_received')
             )
         else:
-            samples = self.client.query_analysis_request(params=dict(
+            result = self.client.query_analysis_request(params=dict(
                 id=[s.get('id') for s in samples],
                 review_state='sample_received')
             )
 
-        for ar in samples:
+        samples = list()
+
+        for ar in result:
+            ready = True
             for a in ar['Analyses']:
                 if str(a['review_state']) not in ['verified', 'published']:
-                    samples.remove(ar)
+                    ready = False
                     break
+            if ready:
+                samples.append(ar)
 
         return samples
 
