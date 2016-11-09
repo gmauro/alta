@@ -139,11 +139,11 @@ class BikaLims(object):
         # get open batches
 
         if len(batches) == 0:
-            batches = self.client.query_batches(params=dict(
+            result = self.client.query_batches(params=dict(
                 review_state='open')
             )
         else:
-            batches = self.client.query_batches(params=dict(
+            result = self.client.query_batches(params=dict(
                 id=[b.get('id') for b in batches],
                 review_state='open')
             )
@@ -151,7 +151,9 @@ class BikaLims(object):
         if also_samples:
             samples = list()
 
-        for batch in batches:
+        batches = list()
+
+        for batch in result:
 
             ars = self.client.query_analysis_request(params=dict(
                 batch_id=batch.get('id'))
@@ -169,11 +171,14 @@ class BikaLims(object):
                 if ar.get('review_state') not in ['published']:
                     ready = False
                     sample = None
-                    batches.remove(batch)
+
                     break
 
-            if ready and sample and also_samples:
-                samples.append(sample)
+            if ready:
+                batches.append(batch)
+
+                if sample and also_samples:
+                    samples.append(sample)
 
         if also_samples:
             return batches, samples
@@ -190,11 +195,11 @@ class BikaLims(object):
         # get open worksheets
 
         if len(worksheets) == 0:
-            worksheets = self.client.query_worksheets(params=dict(
+            result = self.client.query_worksheets(params=dict(
                 review_state='open')
             )
         else:
-            worksheets = self.client.query_worksheets(params=dict(
+            result = self.client.query_worksheets(params=dict(
                 id=[w.get('id') for w in worksheets],
                 review_state='open')
             )
@@ -202,7 +207,9 @@ class BikaLims(object):
         if also_samples:
             samples = list()
 
-        for worksheet in worksheets:
+        worksheets = list()
+
+        for worksheet in result:
 
             ready = True
             sample = None
@@ -221,11 +228,13 @@ class BikaLims(object):
 
                             ready = False
                             sample = None
-                            worksheets.remove(worksheet)
+
                             break
 
-            if ready and sample and also_samples:
-                samples.append(sample)
+            if ready:
+                worksheets.append(worksheet)
+                if sample and also_samples:
+                    samples.append(sample)
 
         if also_samples:
             return worksheets, samples
