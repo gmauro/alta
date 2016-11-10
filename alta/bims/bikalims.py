@@ -99,7 +99,7 @@ class BikaLims(object):
 
         for ar in result:
             for a in ar['Analyses']:
-                if (str(a['id']) not in ANALYSIS_NOT_SYNC or sync_all_analyses) \
+                if (str(a['Keyword']) not in ANALYSIS_NOT_SYNC or sync_all_analyses) \
                         and str(a['review_state']) == get_review_state(action):
                     path = os.path.join(ar['path'], a['id'])
                     a.update(dict(path=path))
