@@ -67,11 +67,12 @@ class BikaLims(object):
         else:
             return None
 
-    def get_analyses_ready_to_be_synchronized(self, samples=list(), action='submit'):
+    def get_analyses_ready_to_be_synchronized(self, samples=list(), action='submit', sync_all_analyses=False):
         """
 
         :param samples:
         :param action:
+        :param sync_all_analyses:
         :return:
         """
         def get_review_state(action):
@@ -98,7 +99,8 @@ class BikaLims(object):
 
         for ar in result:
             for a in ar['Analyses']:
-                if str(a['id']) not in ANALYSIS_NOT_SYNC and str(a['review_state']) == get_review_state(action):
+                if (str(a['id']) not in ANALYSIS_NOT_SYNC or sync_all_analyses) \
+                        and str(a['review_state']) == get_review_state(action):
                     path = os.path.join(ar['path'], a['id'])
                     a.update(dict(path=path))
                     analyses.append(a)
