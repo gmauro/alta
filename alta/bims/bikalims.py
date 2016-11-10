@@ -69,11 +69,12 @@ class BikaLims(object):
 
     def get_analyses_ready_to_be_synchronized(self, samples=list(), action='submit', sync_all_analyses=False):
         """
-
+        Given a list of bika Analysis Requests object, returns their analyses ready to be synchronized
+        if no list is given, returns ALL analyses ready to be synchronized
         :param samples:
         :param action:
         :param sync_all_analyses:
-        :return:
+        :return: a list of bika Analyses object
         """
         def get_review_state(action):
             review_state = dict(
@@ -109,9 +110,10 @@ class BikaLims(object):
 
     def get_analysis_requests_ready_to_be_published(self, samples=list()):
         """
-
+        Given a list of bika Analysis Requests object, returns the ones ready to be published
+        if no list is given, returns ALL analysis requests ready to be published
         :param samples:
-        :return:
+        :return: a list of bika Analysis Request object
         """
         if len(samples) == 0:
             result = self.client.query_analysis_request(params=dict(
@@ -138,10 +140,11 @@ class BikaLims(object):
 
     def get_batches_ready_to_be_closed(self, batches=list(), also_samples=False):
         """
-
+        Given a list of bika Batches object, returns the ones ready to be closed
+        if no list is given, returns ALL batches ready to be closed
         :param batches:
         :param also_samples:
-        :return:
+        :return: a list of bika Batches object
         """
         # get open batches
 
@@ -194,10 +197,11 @@ class BikaLims(object):
 
     def get_worksheets_ready_to_be_closed(self, worksheets=list(), also_samples=False):
         """
-
+        Given a list of bika Worksheets object, returns the ones ready to be closed
+        if no list is given, returns ALL worksheets ready to be closed
         :param worksheets:
         :param also_samples:
-        :return:
+        :return: a list of bika Worksheets object
         """
         # get open worksheets
 
@@ -250,9 +254,9 @@ class BikaLims(object):
 
     def close_batches(self, batches=list()):
         """
-
+        Given a list of bika Batches object, close them
         :param batches:
-        :return:
+        :return: response dict from bika
         """
         # close open batches
 
@@ -265,9 +269,9 @@ class BikaLims(object):
 
     def close_worksheets(self, worksheets=list()):
         """
-
+        Given a list of bika Worksheets object, close them
         :param worksheets:
-        :return:
+        :return: response dict from bika
         """
         # close worksheets
 
@@ -280,10 +284,10 @@ class BikaLims(object):
 
     def submit_analyses(self, analyses=list(), result='1'):
         """
-
+        Given a list of bika Analyses object, submit them
         :param analyses:
         :param result:
-        :return:
+        :return: response dict from bika
         """
         if isinstance(analyses, list) and len(analyses) > 0:
             paths = [a.get('path') for a in analyses]
@@ -294,9 +298,9 @@ class BikaLims(object):
 
     def verify_analyses(self, analyses=list()):
         """
-
+        Given a list of bika Analyses object, verify them
         :param analyses:
-        :return:
+        :return: response dict from bika
         """
         if isinstance(analyses, list) and len(analyses) > 0:
             paths = [a.get('path') for a in analyses]
@@ -307,9 +311,9 @@ class BikaLims(object):
 
     def publish_analyses(self, analyses=list()):
         """
-
+        Given a list of bika Analyses object, publish them
         :param analyses:
-        :return:
+        :return: response dict from bika
         """
         if isinstance(analyses, list) and len(analyses) > 0:
             paths = [a.get('path') for a in analyses]
@@ -320,9 +324,9 @@ class BikaLims(object):
 
     def publish_analysis_requests(self, analysis_requests=list()):
         """
-
+        Given a list of bika Analysis Request object, submit them
         :param analysis_requests:
-        :return:
+        :return: response dict from bika
         """
         # publish analysis requests
         if isinstance(analysis_requests, list) and len(analysis_requests) > 0:
