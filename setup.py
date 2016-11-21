@@ -20,7 +20,7 @@ setup(name="alta",
       author_email=AUTHOR_EMAIL,
       maintainer=MAINTAINER,
       maintainer_email=MAINTAINER_EMAIL,
-      install_requires=['bioblend', 'nglimsclient', 'bikaclient',
+      install_requires=['bioblend', 'nglimsclient', 'bikaclient>=0.2',
                         'python-irodsclient>=0.5.0'],
       packages=PACKAGES,
       dependency_links=[
