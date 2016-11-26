@@ -1,5 +1,6 @@
 import logging
 import os
+import shutil
 
 LOG_LEVELS = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 
@@ -42,8 +43,10 @@ def import_from(mod_name, var_name, error_msg=None):
 
 # from http://stackoverflow.com/questions/273192/how-to-check-if-a-directory-
 # exists-and-create-it-if-necessary/5032238#5032238
-def ensure_dir(path):
+def ensure_dir(path, force=False):
     try:
+        if force and os.path.exists(path):
+            shutil.rmtree(path)
         os.makedirs(path)
     except OSError:
         if not os.path.isdir(path):
