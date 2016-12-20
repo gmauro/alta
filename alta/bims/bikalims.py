@@ -37,8 +37,7 @@ class BikaLims(object):
         result = self.client.query_analysis_request(params=dict(id=bid))
         if result:
             return {'batch_id': result[0]['title'],
-                    'sample_label': result[0]['ClientSampleID'],
-                    'runs': result[0]['Sampler']}
+                    'sample_label': result[0]['ClientSampleID']}
         else:
             return None
 
@@ -61,7 +60,8 @@ class BikaLims(object):
             for r in result:
                 sub_d = {'type': r['SampleTypeTitle'],
                          'sample_label': r['Title'],
-                         'client_sample_id': r['ClientSampleID']
+                         'client_sample_id': r['ClientSampleID'],
+                         'runs': r['Sampler'],
                          }
                 batch_info[r['SampleID']] = sub_d
             return batch_info
