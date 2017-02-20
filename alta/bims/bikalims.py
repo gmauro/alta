@@ -59,7 +59,7 @@ class BikaLims(object):
         if result:
             batch_info = dict()
             for r in result:
-                if len(sample_list) > 0 and t['id'] not in sample_list:
+                if len(sample_list) > 0 and r['id'] not in sample_list:
                     continue
 
                 sub_d = {'type': r['SampleTypeTitle'],
