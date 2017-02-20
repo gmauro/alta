@@ -41,13 +41,14 @@ class BikaLims(object):
         else:
             return None
 
-    def get_batch_info(self, batch_label):
+    def get_batch_info(self, batch_label, sample_list=list()):
         """
         Given a valid bika batch label, returns a dictionary filled with all
         the info of the samples owned by the batch
 
         :type batch_label: str
         :param batch_label:
+        :param sample_list:
         :return: a dictionary with as key the sample id and value a
         dictionary collecting the type, label and external label of the sample
         """
@@ -58,15 +59,62 @@ class BikaLims(object):
         if result:
             batch_info = dict()
             for r in result:
+                if len(sample_list) > 0 and t['id'] not in sample_list:
+                    continue
+
                 sub_d = {'type': r['SampleTypeTitle'],
                          'sample_label': r['Title'],
                          'client_sample_id': r['ClientSampleID'],
                          'runs': r['Sampler'],
+                         'request_id': t['id'],
                          }
                 batch_info[r['SampleID']] = sub_d
             return batch_info
         else:
             return None
+
+    def get_analysis_request_by_service(self, analysis_service_id=None, review_state='published'):
+        result = self.client.query_analysis_request(params=dict(
+            analysis_service_id=analysis_service_id,
+            review_state=review_state)
+        )
+
+        if result:
+            res = [dict(
+                id=str(r['id']),
+                title=str(r['Title']),
+                sample_id=str(r['SampleID']),
+                sample_type=str(r['SampleTypeTitle']),
+                path=str(r['path']),
+                client_sample_id=str(r['ClientSampleID']),
+                client=str(r['Client']),
+                contact=str(r['Contact']),
+                cccontact=[str(c) for c in r['CCContact']],
+                batch_id=str(r['title']),
+                batch_title=str(r['Batch']),
+                date=str(r['Date']),
+                date_received=str(r['DateReceived']),
+                date_published=str(r['DatePublished']),
+                date_created=str(r['creation_date']),
+                review_state=str(r['review_state']) if 'published' in str(
+                    r['review_state']) else str(r['subject'][0]),
+                remarks=str(r['Remarks']),
+                rights=str(r['rights']),
+                results_interpretation=str(r['ResultsInterpretation']),
+                params=self._get_environmental_conditions(r['EnvironmentalConditions']),
+                creator=str(r['Creator']),
+                analyses=self._get_analyses(r['Analyses']),
+                runs=self._get_runs_ar(r['Sampler']),
+                transitions=[dict(id=str(t['id']), title=str(t['title'])) for t in r['transitions']],
+            ) for r in result
+                   if len(self.client.query_batches(params=dict(
+                    id=str(r['title']),
+                    review_state='cancelled'))) == 0]
+
+            return res
+
+        return list()
+
 
     def get_analyses_ready_to_be_synchronized(self, samples=list(), action='submit', sync_all_analyses=False):
         """
@@ -336,5 +384,61 @@ class BikaLims(object):
             return res
 
         return dict()
+
+    def _get_analyses(self, analyses):
+        return [dict(
+                id=str(r['id']),
+                title=str(r['Title']),
+                description=str(r['description']),
+                keyword=str(r['Keyword']),
+                category=str(r['CategoryTitle']),
+                result=str(r['Result']),
+                client=str(r['ClientTitle']),
+                due_date=str(r['DueDate']),
+                date_received=str(r['DateReceived']),
+                date_sampled=str(r['DateSampled']),
+                date_pubblished=str(r['DateAnalysisPublished']),
+                result_date=str(r['ResultCaptureDate']),
+                analyst=str(r['Analyst']),
+                request_id=str(r['RequestID']),
+                review_state=str(r['review_state']),
+                remarks=str(r['Remarks']),
+                uid=str(r['UID']),
+                transitions=[dict(id=str(t['id']), title=str(t['title'])) for t in r['transitions']],
+        )for r in analyses]
+
+    def _get_service_data(self, analysis_services_settings):
+        for settings in analysis_services_settings:
+            if 'service_data' in settings:
+                services_data = [dict(
+                    id=str(s['id']),
+                    title=str(s['Title']),
+                    price=str(s['Price']),
+                    path=str(s['path']),
+                ) for s in settings['service_data']]
+                return services_data
+        return []
+
+    def _get_environmental_conditions(self, str_environmental_conditions):
+        environmental_conditions = list()
+        if '=' in str_environmental_conditions:
+            for ec in str_environmental_conditions.split('|'):
+                items = ec.split('=')
+                if len(items) == 2:
+                    environmental_conditions.append(dict(label=str(items[0]), value=str(items[1])))
+        elif len(str_environmental_conditions.strip()) > 0:
+            for evc in json.loads(str_environmental_conditions):
+                for k,v in evc.iteritems():
+                    environmental_conditions.append(dict(label=str(k), value=str(v)))
+
+        return  environmental_conditions
+
+    def _get_runs_ar(self, str_runs):
+        runs = list()
+        if isinstance(str_runs, list):
+            return str_runs
+        elif len(str_runs.strip()) > 0:
+            return json.loads(str_runs)
+        return runs
 
 
