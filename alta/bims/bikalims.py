@@ -66,7 +66,7 @@ class BikaLims(object):
                          'sample_label': r['Title'],
                          'client_sample_id': r['ClientSampleID'],
                          'runs': r['Sampler'],
-                         'request_id': t['id'],
+                         'request_id': r['id'],
                          }
                 batch_info[r['SampleID']] = sub_d
             return batch_info
