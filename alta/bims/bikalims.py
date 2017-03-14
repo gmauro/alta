@@ -62,11 +62,16 @@ class BikaLims(object):
                 if len(sample_list) > 0 and r['id'] not in sample_list:
                     continue
 
+                analyses = {}
+                for a in r['Analyses']:
+                    analyses[a['Title']] = a['review_state']
+
                 sub_d = {'type': r['SampleTypeTitle'],
                          'sample_label': r['Title'],
                          'client_sample_id': r['ClientSampleID'],
                          'runs': r['Sampler'],
                          'request_id': r['id'],
+                         'analyses': analyses
                          }
                 batch_info[r['SampleID']] = sub_d
             return batch_info
