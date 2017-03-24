@@ -16,9 +16,7 @@
 
 
 ```bash
-git clone https://github.com/gmauro/alta.git
-cd alta
-make install_user
+curl -sS http://gmauro.github.io/alta/install.sh | sh -s venv
 ```
 
 ## Usage

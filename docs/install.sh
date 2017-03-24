@@ -2,15 +2,17 @@
 
 PWD=`pwd`
 
+# virtualenv label unless overridden by first command-line argument
+VENV=${1:-venv}
+
 # create a virtualenv
-virtualenv alta
+virtualenv $VENV
 
 # activate it
-. alta/bin/activate
+. $VENV/bin/activate
 
 # create a tmp dir
 WORK_DIR=`mktemp -d`
-echo $WORK_DIR
 
 cd $WORK_DIR
 
