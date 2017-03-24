@@ -18,6 +18,11 @@
 ```bash
 curl -sS http://gmauro.github.io/alta/install.sh | sh -s venv
 ```
+In you current path, you will find a virtual enviroment into the 'venv' dir.
+Activate it to access Alta.
+```bash
+source venv/bin/activate
+```
 
 ## Usage
 

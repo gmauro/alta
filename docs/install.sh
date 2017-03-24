@@ -25,4 +25,7 @@ cd alta; make install
 # remove everything
 cd $PWD ; rm -rf $WORK_DIR
 
-
+echo ""
+echo "*****"
+echo "To activate the virtual environment, type: source $WORK_DIR/bin/activate"
+echo "*****"
