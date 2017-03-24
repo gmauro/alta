@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PWD=`pwd`
+MYPWD=$(pwd)
 
 # virtualenv label unless overridden by first command-line argument
 VENV=${1:-venv}
@@ -23,9 +23,9 @@ git clone https://github.com/gmauro/alta.git
 cd alta; make install
 
 # remove everything
-cd $PWD ; rm -rf $WORK_DIR
+cd $MYPWD ; rm -rf $WORK_DIR
 
 echo ""
 echo "*****"
-echo "To activate the virtual environment, type: source $WORK_DIR/bin/activate"
+echo "To activate the virtual environment, type: source $MYPWD/$VENV/bin/activate"
 echo "*****"
