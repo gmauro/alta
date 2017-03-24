@@ -1,5 +1,5 @@
 
-TARGETS=all install install_user clean uninstall
+TARGETS=install install_user clean uninstall
 
 all:
 	@echo "Try one of: ${TARGETS}"

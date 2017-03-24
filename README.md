@@ -18,7 +18,7 @@
 ```bash
 git clone https://github.com/gmauro/alta.git
 cd alta
-python setup.py install
+make install_user
 ```
 
 ## Usage
