@@ -27,5 +27,5 @@ cd $MYPWD ; rm -rf $WORK_DIR
 
 echo ""
 echo "*****"
-echo "To activate the virtual environment, type: source $MYPWD/$VENV/bin/activate"
+echo "To activate the virtual environment, type: source $VENV/bin/activate"
 echo "*****"
