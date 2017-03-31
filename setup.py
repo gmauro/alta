@@ -14,7 +14,7 @@ MAINTAINER_EMAIL = ", ".join("<%s>" % t[1] for t in MAINTAINER_INFO)
 PACKAGES = ['alta', 'alta.bims', 'alta.workflows', 'alta.objectstore']
 
 setup(name="alta",
-      version='0.5',
+      version='0.6',
       description="package to access the NGS infrastructure",
       author=AUTHOR,
       author_email=AUTHOR_EMAIL,
