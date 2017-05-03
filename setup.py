@@ -11,7 +11,7 @@ AUTHOR = ", ".join(t[0] for t in AUTHOR_INFO)
 AUTHOR_EMAIL = ", ".join("<%s>" % t[1] for t in AUTHOR_INFO)
 MAINTAINER = ", ".join(t[0] for t in MAINTAINER_INFO)
 MAINTAINER_EMAIL = ", ".join("<%s>" % t[1] for t in MAINTAINER_INFO)
-PACKAGES = ['alta', 'alta.bims', 'alta.workflows', 'alta.objectstore']
+PACKAGES = ['alta', 'alta.bims', 'alta.workflows', 'alta.objectstore', 'alta.browsers']
 
 setup(name="alta",
       version='0.6',
@@ -21,10 +21,12 @@ setup(name="alta",
       maintainer=MAINTAINER,
       maintainer_email=MAINTAINER_EMAIL,
       install_requires=['bioblend', 'nglimsclient', 'bikaclient>=0.2',
+                        'vcfminerclient==0.1',
                         'python-irodsclient>=0.5.0'],
       packages=PACKAGES,
       dependency_links=[
         "https://github.com/ratzeni/bika.client/tarball/master#egg=bikaclient",
+        "https://github.com/ratzeni/vcf-miner.client/tarball/master#egg=vcfminerclient",
         "https://github.com/irods/python-irodsclient/tarball/master#egg=python-irodsclient-0.5.0",
         "https://bitbucket.org/crs4/nglimsclient/get/master.zip#egg=nglimsclient" 
       ],

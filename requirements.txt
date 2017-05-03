@@ -1,4 +1,5 @@
 git+https://github.com/ratzeni/bika.client.git
+git+https://github.com/ratzeni/vcf-miner.client.git
 git+https://bitbucket.org/crs4/nglimsclient.git
 git+https://github.com/irods/python-irodsclient.git
 git+https://github.com/galaxyproject/bioblend.git
