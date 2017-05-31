@@ -57,6 +57,12 @@ class ConfigurationFromYamlFile(object):
     def get_irods_section(self, label='irods'):
         return self.get_section(label)
 
+    def get_bika_section(self, label='bika'):
+        return self.get_section(label)
+
+    def get_vcfminer_section(self, label='vcfminer'):
+        return self.get_section(label)
+
     def get_omero_section(self, label='omero', subsection='default'):
         o_section = self.get_section(label)
         if subsection:
