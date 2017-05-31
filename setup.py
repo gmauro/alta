@@ -22,7 +22,7 @@ setup(name="alta",
       maintainer_email=MAINTAINER_EMAIL,
       install_requires=['bioblend', 'nglimsclient', 'bikaclient>=0.2',
                         'vcfminerclient==0.1',
-                        'python-irodsclient>=0.5.0'],
+                        'python-irodsclient'],
       packages=PACKAGES,
       dependency_links=[
         "https://github.com/ratzeni/bika.client/tarball/master#egg=bikaclient",
