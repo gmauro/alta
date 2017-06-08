@@ -14,7 +14,7 @@ MAINTAINER_EMAIL = ", ".join("<%s>" % t[1] for t in MAINTAINER_INFO)
 PACKAGES = ['alta', 'alta.bims', 'alta.workflows', 'alta.objectstore', 'alta.browsers']
 
 setup(name="alta",
-      version='0.6',
+      version='0.7',
       description="package to access the NGS infrastructure",
       author=AUTHOR,
       author_email=AUTHOR_EMAIL,
@@ -22,7 +22,7 @@ setup(name="alta",
       maintainer_email=MAINTAINER_EMAIL,
       install_requires=['bioblend', 'nglimsclient', 'bikaclient>=0.2',
                         'vcfminerclient==0.1',
-                        'python-irodsclient'],
+                        'python-irodsclient==0.5.0'],
       packages=PACKAGES,
       dependency_links=[
         "https://github.com/ratzeni/bika.client/tarball/master#egg=bikaclient",
