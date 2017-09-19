@@ -9,6 +9,7 @@ NO_BIKALIMS_CLIENT_MESSAGE = ('The bika client is required, please install it'
 COMPLEX_SAMPLE_TYPES = ['FLOWCELL', 'POOL']
 ANALYSIS_NOT_SYNC = ['full-analysis']
 
+
 class BikaLims(object):
     """
 
@@ -112,14 +113,13 @@ class BikaLims(object):
                 runs=self._get_runs_ar(r['Sampler']),
                 transitions=[dict(id=str(t['id']), title=str(t['title'])) for t in r['transitions']],
             ) for r in result
-                   if len(self.client.query_batches(params=dict(
+                if len(self.client.query_batches(params=dict(
                     id=str(r['title']),
                     review_state='cancelled'))) == 0]
 
             return res
 
         return list()
-
 
     def get_analyses_ready_to_be_synchronized(self, samples=list(), action='submit', sync_all_analyses=False):
         """
@@ -130,6 +130,7 @@ class BikaLims(object):
         :param sync_all_analyses:
         :return: a list of bika Analyses object
         """
+
         def get_review_state(action):
             review_state = dict(
                 receive='sample_due',
@@ -249,6 +250,61 @@ class BikaLims(object):
 
         return this_batches
 
+    def get_delivery_info(self, delivery_id, review_state='all'):
+        """
+        Given a valid bika delivery id, returns a dictionary filled with all
+        the info
+
+        :type delivery_id: str
+        :param delivery_id:
+
+        :return: a dictionary with as key the sample id and value a
+        dictionary collecting the type, label and external label of the sample
+        """
+        result = self.client.query_deliveries(params=dict(
+            id=delivery_id,
+            review_state=review_state)
+        )
+        if result and isinstance(result, list) and len(result) == 1:
+            delivery = self._get_deliveries(result)[0]
+            samples_info = dict()
+            for sample_id in delivery.get('samples'):
+                ar = self.client.query_analysis_request(params=dict(id=sample_id))[0]
+
+                samples_info[ar['SampleID']] = dict(
+                    type=ar['SampleTypeTitle'],
+                    sample_label=ar['Title'],
+                    client_sample_id=ar['ClientSampleID'],
+                    runs=ar['Sampler'],
+                    request_id=ar['id'],
+                    batch_id=ar['title'],
+                )
+            delivery['samples_info'] = samples_info
+            return delivery
+        else:
+            return None
+
+    def get_deliveries_ready_to_process(self, deliveries=list()):
+        """
+        Given a list of bika Deliveries object, returns the ones ready to be processed
+        if no list is given, returns ALL deliveries ready to be processed
+        :param deliveries:
+        :return: a list of bika Worksheets object
+        """
+        # get open worksheets
+
+        if len(deliveries) == 0:
+            result = self.client.query_deliveries(params=dict(
+                review_state='ready')
+            )
+        else:
+            result = self.client.query_deliveries(params=dict(
+                id=[d.get('id') for d in deliveries],
+                review_state='ready')
+            )
+
+        return self._get_deliveries(result)
+
     def get_worksheets_ready_to_be_closed(self, worksheets=list(), also_samples=False):
         """
         Given a list of bika Worksheets object, returns the ones ready to be closed
@@ -288,9 +344,8 @@ class BikaLims(object):
                         continue
 
                     for a in ar.get('Analyses'):
-                        if str(a['id']) == r.get('analysis_id') and\
-                                        str(a['review_state']) not in ['verified','published']:
-
+                        if str(a['id']) == r.get('analysis_id') and \
+                                        str(a['review_state']) not in ['verified', 'published']:
                             ready = False
                             sample = None
 
@@ -390,27 +445,108 @@ class BikaLims(object):
 
         return dict()
 
+    def set_delivery_started(self, delivery_id):
+        """
+        Given a bika Delivery object, set it as processing
+        :param delivery_id:
+        :return: response dict from bika
+        """
+        # set delivery as processing
+        result = self.client.query_deliveries(params=dict(
+            id=delivery_id,
+            review_state='ready')
+        )
+
+        if result and isinstance(result, list) and len(result) == 1:
+            delivery = self._get_deliveries(result)[0]
+
+            if delivery and isinstance(delivery, dict) and len(delivery) > 0:
+                path = delivery.get('path')
+                res = self.client.set_delivery_started(path)
+                return res
+
+        return dict()
+
+    def set_delivery_completed(self, delivery_id):
+        """
+        Given a bika Delivery object, set it as delivered
+        :param delivery_id:
+        :return: response dict from bika
+        """
+        # set delivery as processing
+        result = self.client.query_deliveries(params=dict(
+            id=delivery_id,
+            review_state='ready')
+        )
+
+        if result and isinstance(result, list) and len(result) == 1:
+            delivery = self._get_deliveries(result)[0]
+
+            if delivery and isinstance(delivery, dict) and len(delivery) > 0:
+                path = delivery.get('path')
+                res = self.client.set_delivery_completed(path)
+                return res
+
+        return dict()
+
+    def update_delivery_details(self, delivery_id, user=None, password=None, path=None):
+
+        result = self.client.query_deliveries(params=dict(
+            id=delivery_id)
+        )
+
+        if result and isinstance(result, list) and len(result) == 1:
+            delivery = self._get_deliveries(result)[0]
+            path = delivery.get('path')
+            details = delivery.get('details')
+
+            details['user'] = user if user else details['user']
+            details['password'] = password if password else details['password']
+            details['path'] = path if path else details['path']
+
+            res = self.client.update_delivery_details(path, details)
+            return res
+
+        return dict()
+
     def _get_analyses(self, analyses):
         return [dict(
-                id=str(r['id']),
-                title=str(r['Title']),
-                description=str(r['description']),
-                keyword=str(r['Keyword']),
-                category=str(r['CategoryTitle']),
-                result=str(r['Result']),
-                client=str(r['ClientTitle']),
-                due_date=str(r['DueDate']),
-                date_received=str(r['DateReceived']),
-                date_sampled=str(r['DateSampled']),
-                date_pubblished=str(r['DateAnalysisPublished']),
-                result_date=str(r['ResultCaptureDate']),
-                analyst=str(r['Analyst']),
-                request_id=str(r['RequestID']),
-                review_state=str(r['review_state']),
-                remarks=str(r['Remarks']),
-                uid=str(r['UID']),
-                transitions=[dict(id=str(t['id']), title=str(t['title'])) for t in r['transitions']],
-        )for r in analyses]
+            id=str(r['id']),
+            title=str(r['Title']),
+            description=str(r['description']),
+            keyword=str(r['Keyword']),
+            category=str(r['CategoryTitle']),
+            result=str(r['Result']),
+            client=str(r['ClientTitle']),
+            due_date=str(r['DueDate']),
+            date_received=str(r['DateReceived']),
+            date_sampled=str(r['DateSampled']),
+            date_pubblished=str(r['DateAnalysisPublished']),
+            result_date=str(r['ResultCaptureDate']),
+            analyst=str(r['Analyst']),
+            request_id=str(r['RequestID']),
+            review_state=str(r['review_state']),
+            remarks=str(r['Remarks']),
+            uid=str(r['UID']),
+            transitions=[dict(id=str(t['id']), title=str(t['title'])) for t in r['transitions']],
+        ) for r in analyses]
+
+    def _get_deliveries(self, deliveries):
+        return [dict(
+            id=r.get('id'),
+            title=r.get('title'),
+            description=r.get('description'),
+            path=r.get('path'),
+            details=json.loads(r.get('location')),
+            creation_date=r.get('creation_date'),
+            modification_date=r.get('modification_date'),
+            date=r.get('Date'),
+            samples=[s.get('request_id') for s in json.loads(r.get('Remarks'))],
+            review_state=r.get('subject')[0] if len(r.get('subject')) == 1 else '',
+            uid=r.get('UID'),
+            creator=r.get('Creator'),
+
+        ) for r in deliveries]
 
     def _get_service_data(self, analysis_services_settings):
         for settings in analysis_services_settings:
@@ -433,10 +569,10 @@ class BikaLims(object):
                     environmental_conditions.append(dict(label=str(items[0]), value=str(items[1])))
         elif len(str_environmental_conditions.strip()) > 0:
             for evc in json.loads(str_environmental_conditions):
-                for k,v in evc.iteritems():
+                for k, v in evc.iteritems():
                     environmental_conditions.append(dict(label=str(k), value=str(v)))
 
-        return  environmental_conditions
+        return environmental_conditions
 
     def _get_runs_ar(self, str_runs):
         runs = list()
@@ -445,5 +581,3 @@ class BikaLims(object):
         elif len(str_runs.strip()) > 0:
             return json.loads(str_runs)
         return runs
-
-
