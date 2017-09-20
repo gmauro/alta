@@ -497,14 +497,14 @@ class BikaLims(object):
 
         if result and isinstance(result, list) and len(result) == 1:
             delivery = self._get_deliveries(result)[0]
-            path = delivery.get('path')
+            obj_path = delivery.get('path')
             details = delivery.get('details')
 
             details['user'] = user if user else details['user']
             details['password'] = password if password else details['password']
             details['path'] = path if path else details['path']
 
-            res = self.client.update_delivery_details(path, details)
+            res = self.client.update_delivery_details(obj_path, details)
             return res
 
         return dict()
