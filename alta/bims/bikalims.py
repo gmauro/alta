@@ -476,7 +476,7 @@ class BikaLims(object):
         # set delivery as processing
         result = self.client.query_deliveries(params=dict(
             id=delivery_id,
-            review_state='ready')
+            review_state='processing')
         )
 
         if result and isinstance(result, list) and len(result) == 1:
