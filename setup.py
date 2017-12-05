@@ -21,7 +21,7 @@ setup(name="alta",
       maintainer=MAINTAINER,
       maintainer_email=MAINTAINER_EMAIL,
       install_requires=['bioblend', 'nglimsclient', 'bikaclient>=0.3',
-                        'vcfminerclient==0.1',
+                        'vcfminerclient>=0.1',
                         'python-irodsclient>=0.5.0'],
       packages=PACKAGES,
       dependency_links=[
