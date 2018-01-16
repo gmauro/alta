@@ -79,6 +79,39 @@ class BikaLims(object):
         else:
             return None
 
+    def get_run_info(self, run_label):
+        """
+        Given a valid rundir label, returns a dictionary filled with all
+        the info of the samples owned by the runs
+
+        :type run_label: str
+        :param run_label:
+        :return: a dictionary with as key the sample id and value a
+        dictionary collecting the type, label and external label of the sample
+        """
+        result = self.client.query_analysis_request(params=dict(
+            run=run_label)
+        )
+
+        if result:
+            run_info = dict()
+            for r in result:
+                analyses = {}
+                for a in r['Analyses']:
+                    analyses[a['Title']] = a['review_state']
+
+                sub_d = {'type': r['SampleTypeTitle'],
+                         'sample_label': r['Title'],
+                         'client_sample_id': r['ClientSampleID'],
+                         'runs': r['Sampler'],
+                         'request_id': r['id'],
+                         'analyses': analyses
+                         }
+                run_info[r['id']] = sub_d
+            return run_info
+        else:
+            return None
+
     def get_analysis_request_by_service(self, analysis_service_id=None, review_state='published'):
         result = self.client.query_analysis_request(params=dict(
             analysis_service_id=analysis_service_id,

@@ -6,7 +6,9 @@ class Browsers(object):
     Interface to handle connection to a Genomic Browser
     """
 
-    def __init__(self, host, user, password, browsers_label, server_host=None, server_user=None, loglevel='INFO'):
+    def __init__(self, host, user='username', password='******', browsers_label='',
+                 server_host=None, server_user=None,
+                 loglevel='INFO'):
         self.log = a_logger(self.__class__.__name__, level=loglevel)
         self.host = host
         self.user = user
@@ -23,6 +25,9 @@ class Browsers(object):
             return VCFMiner(host=self.host, user=self.user, password=self.password,
                             server_host=self.server_host, server_user=self.server_user)
 
+        elif self.browsers_label == 'ga4gh':
+            from .ga4gh import Ga4gh
+            return Ga4gh(host=self.host)
         return None
 
     def is_connected(self):

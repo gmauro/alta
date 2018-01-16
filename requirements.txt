@@ -3,3 +3,5 @@ git+https://github.com/ratzeni/vcf-miner.client.git
 git+https://bitbucket.org/crs4/nglimsclient.git
 git+https://github.com/irods/python-irodsclient.git
 git+https://github.com/galaxyproject/bioblend.git
+ga4gh-server
+ga4gh-client
