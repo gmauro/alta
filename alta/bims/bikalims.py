@@ -23,6 +23,7 @@ class BikaLims(object):
             self.log.warning('Must be provided a wellformed url to the Bika '
                              'server')
         self.client = BC(host=url, username=user, password=password)
+        self.log.info("{}".format(self.client.version))
         self.log.info("Connected to {} Bika server".format(url))
 
     def from_bikaid_2_samplelabel(self, bid):
