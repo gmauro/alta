@@ -1,14 +1,8 @@
 import os.path
 import sys
-import yaml
 
-from alta.utils import a_logger, LOG_LEVELS
-
-
-def load_config(config_file):
-    with open(config_file) as cfg:
-        conf = yaml.load(cfg)
-    return conf
+from comoda import a_logger
+from comoda.yaml import load as load_config
 
 
 class ConfigurationFromYamlFile(object):

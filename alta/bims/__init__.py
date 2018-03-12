@@ -1,4 +1,4 @@
-from alta.utils import a_logger
+from comoda import a_logger
 
 
 class Bims(object):

@@ -1,7 +1,7 @@
 # ALTA
 
- Access Library To infrAstructure for ngs data analysis and management
-
+ Reliable foundation library to access infrastructure elements for next generation sequencing data analysis and management 
+ 
 ## Requirements:
 
 - Python 2.7
@@ -11,6 +11,7 @@
 - [python-irodsclient](https://github.com/irods/python-irodsclient)
 - [bikaclient](https://github.com/ratzeni/bika.client)
 - [vcfminerclient](https://github.com/ratzeni/vcf-miner.client)
+- [comoda](https://github.com/gmauro/comoda)
 
 
 

@@ -1,4 +1,4 @@
-from alta.utils import a_logger, import_from
+from comoda import a_logger, import_from
 
 import os
 import json

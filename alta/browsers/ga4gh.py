@@ -1,5 +1,5 @@
 import os
-from alta.utils import a_logger, import_from
+from comoda import a_logger, import_from
 import ga4gh
 
 NO_GA4GH_CLIENT_MESSAGE = ('The ga4gh client is required, please install it'

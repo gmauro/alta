@@ -1,5 +1,5 @@
 import sys
-from alta.utils import a_logger, import_from
+from comoda import a_logger, import_from
 
 
 class BioBank(object):

@@ -1,7 +1,7 @@
 import os
 
 from ..objectstore import ObjectStore
-from alta.utils import ensure_dir
+from comoda import ensure_dir
 
 try:
     from irods.session import iRODSSession
