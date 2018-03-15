@@ -1,5 +1,5 @@
-
-TARGETS=install install_user clean uninstall
+APPNAME=`cat APPNAME`
+TARGETS=clean build dependencies install uninstall
 
 all:
 	@echo "Try one of: ${TARGETS}"
@@ -29,4 +29,4 @@ clean:
 	rm -rf dist *.egg-info __pycache__ build
 
 uninstall:
-	pip uninstall -y alta
+	pip uninstall -y ${APPNAME}

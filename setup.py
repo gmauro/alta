@@ -3,13 +3,17 @@ from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, 'VERSION')) as f:
-    __version__ = f.read().strip()
+with open(os.path.join(here, 'APPNAME')) as f:
+    __appname__ = f.read().strip()
 
 with open(os.path.join(here, 'requirements.txt')) as f:
     required = f.read().splitlines()
 
-extra_files = [os.path.join(here, 'requirements.txt'),
+with open(os.path.join(here, 'VERSION')) as f:
+    __version__ = f.read().strip()
+
+extra_files = [os.path.join(here, 'APPNAME'),
+               os.path.join(here, 'requirements.txt'),
                os.path.join(here, 'VERSION'),
                ]
 
@@ -24,9 +28,10 @@ AUTHOR = ", ".join(t[0] for t in AUTHOR_INFO)
 AUTHOR_EMAIL = ", ".join("<%s>" % t[1] for t in AUTHOR_INFO)
 MAINTAINER = ", ".join(t[0] for t in MAINTAINER_INFO)
 MAINTAINER_EMAIL = ", ".join("<%s>" % t[1] for t in MAINTAINER_INFO)
-PACKAGES = ['alta', 'alta.bims', 'alta.workflows', 'alta.objectstore', 'alta.browsers']
+PACKAGES = ['alta', 'alta.bims', 'alta.workflows', 'alta.objectstore',
+            'alta.browsers']
 
-setup(name="alta",
+setup(name=__appname__,
       version=__version__,
       description="package to access the NGS infrastructure",
       author=AUTHOR,
