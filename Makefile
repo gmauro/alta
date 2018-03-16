@@ -1,20 +1,8 @@
 APPNAME=`cat APPNAME`
-TARGETS=clean build dependencies install uninstall
+TARGETS=clean build dependencies install tag uninstall
 
 all:
 	@echo "Try one of: ${TARGETS}"
-
-install_user: build_user
-	pip install --user --upgrade dist/*.whl
-
-build_user: clean dependencies_user
-	python setup.py bdist_wheel
-
-dependencies_user: requirements.txt
-	pip install --user --upgrade -r requirements.txt
-
-install: build
-	pip install dist/*.whl
 
 build: clean dependencies
 	python setup.py sdist
@@ -27,6 +15,12 @@ clean:
 	python setup.py clean --all
 	find . -name '*.pyc' -delete
 	rm -rf dist *.egg-info __pycache__ build
+
+install: build
+	pip install dist/*.whl
+
+tag:
+	git tag v${VERSION}
 
 uninstall:
 	pip uninstall -y ${APPNAME}
