@@ -1,5 +1,6 @@
 APPNAME=`cat APPNAME`
 TARGETS=clean build dependencies install tag uninstall
+VERSION=`cat VERSION`
 
 all:
 	@echo "Try one of: ${TARGETS}"
