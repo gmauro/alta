@@ -25,9 +25,6 @@ class Browsers(object):
             return VCFMiner(host=self.host, user=self.user, password=self.password,
                             server_host=self.server_host, server_user=self.server_user)
 
-        elif self.browsers_label == 'ga4gh':
-            from .ga4gh import Ga4gh
-            return Ga4gh(host=self.host)
         return None
 
     def is_connected(self):

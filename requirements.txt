@@ -1,7 +1,5 @@
 bioblend
 comoda
-ga4gh-server
-ga4gh-client
 python-irodsclient
 bikaclient
 nglimsclient
